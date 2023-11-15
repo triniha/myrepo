@@ -1,0 +1,27 @@
+name: Deploy to Server on QA branch PR
+
+on:
+  pull_request:
+    branches:
+      - qa
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.5
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Server
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /var/www/ && git pull origin qa "
+
+          # Add any additional deployment steps as needed
+
+      # Add more steps as needed for your deployment process
