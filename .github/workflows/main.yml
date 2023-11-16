@@ -27,7 +27,7 @@ jobs:
       - name: Approve with repository owner
         run: gh pr review ${{ steps.open-pr.outputs.pr_number }} --approve --body "Automated Approval. @triniha"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       # https://github.com/marketplace/actions/enable-pull-request-automerge
       - name: Enable automerge
