@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.TOKEN }}
 
       # https://github.com/marketplace/actions/github-pull-request-action
       - name: Create pull request
@@ -22,12 +24,8 @@ jobs:
           destination_branch: ${{ github.event.repository.default_branch }}
           pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
           pr_body: "Automated Pull Request"
-
-      # Add an approving review mentioning the repository owner (triniha)
-      - name: Approve with repository owner
-        run: gh pr review ${{ steps.open-pr.outputs.pr_number }} --approve --body "Automated Approval. @triniha"
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          pr_reviewer: "surajn17"
+          pr_assignee: "surajn17"
 
       # https://github.com/marketplace/actions/enable-pull-request-automerge
       - name: Enable automerge
